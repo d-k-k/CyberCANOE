@@ -1,2 +1,2 @@
 # CyberCANOE
-Unity API to develop for the UH Manoa CyberCANOe.
+Unity API to develop for the UH Manoa CyberCANOE.
