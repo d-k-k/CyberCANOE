@@ -60,7 +60,7 @@ public class CC_CAMERARIG
     {
         foreach (Camera camera in cameras)
         {
-            camera.GetComponent<CC_CAMERASTEREO>().updateScreenAspect();
+            camera.GetComponent<CC_CAMERASTEREO>().updateScreenAspect(true);
         }
 
     }

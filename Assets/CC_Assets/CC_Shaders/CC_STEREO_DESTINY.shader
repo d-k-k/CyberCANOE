@@ -23,7 +23,9 @@ Shader "CC_Shaders/CC_StereoShaderDestiny" {
 			#pragma target 3.0
 			#include "UnityCG.cginc"
 
-			uniform float InterlaceValue;
+
+			uniform float resX;
+			uniform float resY;
 			uniform sampler2D leftTopLeft;
 			uniform sampler2D leftTopRight;
 			uniform sampler2D leftBottomLeft;
@@ -36,23 +38,35 @@ Shader "CC_Shaders/CC_StereoShaderDestiny" {
 			float4 frag(v2f_img IN) : COLOR0
 			{
 
-				if (fmod(IN.uv.x * InterlaceValue, 2.0) < 1.0)
+				if (fmod(IN.uv.x * resX, 2.0) < 1.0)
 				{
 					if (IN.uv.x <= 0.5 && IN.uv.y > 0.5) 
 					{
-						return tex2D(rightTopLeft, IN.uv);
+						float2 uvCoord;
+						uvCoord.x = IN.uv.x * 2;
+						uvCoord.y = (IN.uv.y - 0.5f) * 2;
+						return tex2D(rightTopLeft, uvCoord);
 					}
 					else if (IN.uv.x <= 0.5 && IN.uv.y <= 0.5)
 					{
-						return tex2D(rightBottomLeft, IN.uv);
+						float2 uvCoord;
+						uvCoord.x = IN.uv.x * 2;
+						uvCoord.y = IN.uv.y * 2;
+						return tex2D(rightBottomLeft, uvCoord);
 					}
 					else if (IN.uv.x > 0.5 && IN.uv.y >= 0.5)
 					{
-						return tex2D(rightTopRight, IN.uv);
+						float2 uvCoord;
+						uvCoord.x = (IN.uv.x - 0.5f) * 2;
+						uvCoord.y = (IN.uv.y - 0.5f) * 2;
+						return tex2D(rightTopRight, uvCoord);
 					}
 					else 
 					{
-						return tex2D(rightBottomRight, IN.uv);
+						float2 uvCoord;
+						uvCoord.x = (IN.uv.x - 0.5f) * 2;
+						uvCoord.y = IN.uv.y * 2;
+						return tex2D(rightBottomRight, uvCoord);
 					}
 
 				}
@@ -60,37 +74,51 @@ Shader "CC_Shaders/CC_StereoShaderDestiny" {
 				{
 					if (IN.uv.x <= 0.5 && IN.uv.y > 0.5)
 					{
-						return tex2D(leftTopLeft, IN.uv);
+						float2 uvCoord;
+						uvCoord.x = IN.uv.x * 2;
+						uvCoord.y = (IN.uv.y - 0.5f) * 2;
+						return tex2D(leftTopLeft, uvCoord);
 					}
 					else if (IN.uv.x <= 0.5 && IN.uv.y <= 0.5)
 					{
-						return tex2D(leftBottomLeft, IN.uv);
+						float2 uvCoord;
+						uvCoord.x = IN.uv.x * 2;
+						uvCoord.y = IN.uv.y * 2;
+						return tex2D(leftBottomLeft, uvCoord);
 					}
 					else if (IN.uv.x > 0.5 && IN.uv.y > 0.5)
 					{
-						return tex2D(leftTopRight, IN.uv);
+						float2 uvCoord;
+						uvCoord.x = (IN.uv.x - 0.5f) * 2;
+						uvCoord.y = (IN.uv.y - 0.5f) * 2;
+						return tex2D(leftTopRight, uvCoord);
 					}
 					else
 					{
-						return tex2D(leftBottomRight, IN.uv);
+						float2 uvCoord;
+						uvCoord.x = (IN.uv.x - 0.5f) * 2;
+						uvCoord.y = IN.uv.y * 2;
+						return tex2D(leftBottomRight, uvCoord);
 					}
 				}
 			}
 
-			ENDCG
-		}
-		
+				ENDCG
+	}
+
 		//Non Stereo
-		Pass 
-		{
-			ZTest Always Cull off ZWrite off
+				Pass
+			{
+				ZTest Always Cull off ZWrite off
 
-			CGPROGRAM
-			#pragma vertex vert_img
-			#pragma fragment frag
-			#pragma target 3.0
-			#include "UnityCG.cginc"
+				CGPROGRAM
+				#pragma vertex vert_img
+				#pragma fragment frag
+				#pragma target 3.0
+				#include "UnityCG.cginc"
 
+			uniform float resX;
+			uniform float resY;
 			uniform sampler2D centerTopLeft;
 			uniform sampler2D centerTopRight;
 			uniform sampler2D centerBottomLeft;
@@ -101,19 +129,32 @@ Shader "CC_Shaders/CC_StereoShaderDestiny" {
 
 				if (IN.uv.x <= 0.5 && IN.uv.y > 0.5) 
 				{
-					return tex2D(centerTopLeft, IN.uv);
+
+					float2 uvCoord;
+					uvCoord.x = IN.uv.x  * 2;
+					uvCoord.y = (IN.uv.y - 0.5f) * 2;
+					return tex2D(centerTopLeft, uvCoord);
 				}
 				else if (IN.uv.x <= 0.5 && IN.uv.y <= 0.5)
 				{
-					return tex2D(centerBottomLeft, IN.uv);
+					float2 uvCoord;
+					uvCoord.x = IN.uv.x * 2;
+					uvCoord.y = IN.uv.y * 2;
+					return tex2D(centerBottomLeft, uvCoord);
 				}
 				else if (IN.uv.x > 0.5 && IN.uv.y >= 0.5)
 				{
-					return tex2D(centerTopRight, IN.uv);
+					float2 uvCoord;
+					uvCoord.x = (IN.uv.x - 0.5f) * 2;
+					uvCoord.y = (IN.uv.y - 0.5f) * 2;
+					return tex2D(centerTopRight, uvCoord);
 				}
 				else 
 				{
-					return tex2D(centerBottomRight, IN.uv);
+					float2 uvCoord;
+					uvCoord.x = (IN.uv.x - 0.5f) * 2;
+					uvCoord.y = IN.uv.y * 2;
+					return tex2D(centerBottomRight, uvCoord);
 				}
 
 			}

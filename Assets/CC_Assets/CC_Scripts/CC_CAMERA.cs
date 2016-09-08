@@ -79,7 +79,7 @@ public class CC_CAMERA : MonoBehaviour
         updateCamerasAspectRatio();
 
         //Save current settings
-        savedAspectRatio = Screen.width / Screen.height;
+        savedAspectRatio = GetComponent<Camera>().aspect;
         savedStereo = enableStereo;
         savedInteraxial = interaxial;
 
@@ -130,9 +130,14 @@ public class CC_CAMERA : MonoBehaviour
             updateCamerasInteraxials();
 
         //Checkes for changes to the aspect ratio for innovator and upadtes camera's accordingly.
-        if (savedAspectRatio != Screen.width / Screen.height)
+        if (savedAspectRatio != GetComponent<Camera>().aspect)
             updateCamerasAspectRatio();
 
+    }
+    
+    void LateUpdate()
+    {
+        SetDestinyPerspective();
     }
 
     //Stereoscopic
@@ -140,7 +145,6 @@ public class CC_CAMERA : MonoBehaviour
     {
         if (selectCamera == SelectedCamera.Destiny)
         {
-            SetDestinyPerspective();
 
             if (enableStereo)
             {
@@ -154,7 +158,8 @@ public class CC_CAMERA : MonoBehaviour
                 destinyStereoMaterial.SetTexture("rightTopRight", destinyCameras[2].GetComponent<CC_CAMERASTEREO>().getRightRenderTexture());
                 destinyStereoMaterial.SetTexture("rightBottomRight", destinyCameras[3].GetComponent<CC_CAMERASTEREO>().getRightRenderTexture());
 
-                destinyStereoMaterial.SetFloat("InterlaceValue", Screen.width);
+                destinyStereoMaterial.SetFloat("resX", Screen.width);
+                destinyStereoMaterial.SetFloat("resY", Screen.height);
 
                 Graphics.Blit(destination, destinyStereoMaterial, 0);
 
@@ -165,6 +170,9 @@ public class CC_CAMERA : MonoBehaviour
                 destinyStereoMaterial.SetTexture("centerBottomLeft", destinyCameras[1].GetComponent<CC_CAMERASTEREO>().getCenterRenderTexture());
                 destinyStereoMaterial.SetTexture("centerTopRight", destinyCameras[2].GetComponent<CC_CAMERASTEREO>().getCenterRenderTexture());
                 destinyStereoMaterial.SetTexture("centerBottomRight", destinyCameras[3].GetComponent<CC_CAMERASTEREO>().getCenterRenderTexture());
+
+                destinyStereoMaterial.SetFloat("resX", Screen.width);
+                destinyStereoMaterial.SetFloat("resY", Screen.height);
 
                 Graphics.Blit(destination, destinyStereoMaterial, 1);
             }
@@ -237,9 +245,9 @@ public class CC_CAMERA : MonoBehaviour
     //Updates innovator's camera when aspect ratio changes.
     private void updateCamerasAspectRatio()
     {
-        innovatorCamera.GetComponent<CC_CAMERASTEREO>().updateScreenAspect();
+        innovatorCamera.GetComponent<CC_CAMERASTEREO>().updateScreenAspect(false);
         m_DestinyCameraRig.updateCameraScreenAspect(destinyCameras);
-        savedAspectRatio = Screen.width / Screen.height;
+        savedAspectRatio = GetComponent<Camera>().aspect;
     }
 
     //Disables or enables center, left, or right cameras depending on if stereo is enabled.

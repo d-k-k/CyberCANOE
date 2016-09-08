@@ -106,54 +106,8 @@ public class CC_CANOE : MonoBehaviour
         CC_DESTINY_SCREENS = transform.FindChild("CC_DESTINY_SCREENS").gameObject;
         CC_GUI = transform.FindChild("CC_GUI").gameObject;
 
-        //Set up the windows according to the desired platform.
-        if (Application.platform == RuntimePlatform.WindowsPlayer)
-        {
-            string windowName;
-            IntPtr windowPtr = CC_COMMANDLINE.FindWindow(null, productName);
-
-            //Local Cluster
-            if (CC_COMMANDLINE.isLocalCluster())
-            {
-                if (CC_COMMANDLINE.GetCameraIndex() == 0)
-                {
-                    windowName = productName + "-LocalCluster-1-Master";
-                }
-                else
-                {
-                    windowName = productName + "-LocalCluster-" + (CC_COMMANDLINE.GetCameraIndex() + 1) + "-Client";
-                }
-                CC_COMMANDLINE.SetWindowText(windowPtr, windowName);
-                CC_COMMANDLINE.SetPosition((7 - CC_COMMANDLINE.GetCameraIndex()) * CC_COMMANDLINE.GetResWidth(), 0, windowName);
-            }
-            //Innovator Platform
-            else if (CC_COMMANDLINE.isInnovator())
-            {
-                windowName = productName + "-Innovator";
-                CC_COMMANDLINE.SetWindowText(windowPtr, windowName);
-                CC_COMMANDLINE.SetPosition(0, 0, windowName);
-            }
-            //Destiny Platform
-            else if (CC_COMMANDLINE.isDestiny())
-            {
-                if (CC_COMMANDLINE.GetCameraIndex() == 0)
-                {
-                    windowName = productName + "-Destiny-Kanaloa-1-Master";
-                }
-                else
-                {
-                    windowName = productName + "-Destiny-Kanaloa-" + (CC_COMMANDLINE.GetCameraIndex() + 1) + "-Client";
-                }
-                CC_COMMANDLINE.SetWindowText(windowPtr, windowName);
-                CC_COMMANDLINE.SetPosition(0, 0, windowName);
-            }
-            //Fallback
-            else
-            {
-                CC_COMMANDLINE.SetPosition(0, 0, productName);
-            }
-
-        }
+        //Set Window Position
+        SetWindowPosition();
 
     }
 
@@ -181,9 +135,6 @@ public class CC_CANOE : MonoBehaviour
         {
             int width = CC_COMMANDLINE.GetResWidth();
             int height = CC_COMMANDLINE.GetResHeight();
-            Debug.Log(width);
-            Debug.Log(height);
-
 
             if (width != 0 && height != 0)
             {
@@ -193,6 +144,7 @@ public class CC_CANOE : MonoBehaviour
             else Screen.SetResolution(1024, 768, false, 60);
 
         }
+
         changeWandModels();
         changeScreens();
 
@@ -307,6 +259,60 @@ public class CC_CANOE : MonoBehaviour
                 CC_DESTINY_SCREENS.SetActive(true);
                 savedSelScreen = showScreen;
                 break;
+        }
+    }
+
+    private void SetWindowPosition()
+    {
+        //Set up the windows according to the desired platform.
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            string windowName = productName;
+            IntPtr windowPtr = CC_COMMANDLINE.FindWindow(null, productName);
+
+            //Local Cluster
+            if (CC_COMMANDLINE.isLocalCluster())
+            {
+                if (CC_COMMANDLINE.GetCameraIndex() == 0)
+                {
+                    windowName = productName + "-LocalCluster-1-Master";
+                }
+                else
+                {
+                    windowName = productName + "-LocalCluster-" + (CC_COMMANDLINE.GetCameraIndex() + 1) + "-Client";
+                }
+                CC_COMMANDLINE.SetWindowText(windowPtr, windowName);
+                CC_COMMANDLINE.SetPosition((7 - CC_COMMANDLINE.GetCameraIndex()) * CC_COMMANDLINE.GetResWidth(), 0, windowName);
+            }
+            //Innovator Platform
+            else if (CC_COMMANDLINE.isInnovator())
+            {
+                windowName = productName + "-Innovator";
+                CC_COMMANDLINE.SetWindowText(windowPtr, windowName);
+                CC_COMMANDLINE.SetPosition(0, 0, windowName);
+            }
+            //Destiny Platform
+            else if (CC_COMMANDLINE.isDestiny())
+            {
+                if (CC_COMMANDLINE.GetCameraIndex() == 0)
+                {
+                    windowName = productName + "-Destiny-Kanaloa-1-Master";
+                }
+                else
+                {
+                    windowName = productName + "-Destiny-Kanaloa-" + (CC_COMMANDLINE.GetCameraIndex() + 1) + "-Client";
+                }
+                CC_COMMANDLINE.SetWindowText(windowPtr, windowName);
+                CC_COMMANDLINE.SetPosition(0, 0, windowName);
+            }
+            //Fallback
+            else
+            {
+                CC_COMMANDLINE.SetPosition(0, 0, productName);
+            }
+
+            this.productName = windowName;
+
         }
     }
 

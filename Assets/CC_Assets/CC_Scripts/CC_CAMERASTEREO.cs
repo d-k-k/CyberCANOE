@@ -16,7 +16,7 @@ Version: September 5th, 2016.
 
 /// <summary> Turns camera into a stereoscopic capabale camera. </summary>
 public class CC_CAMERASTEREO : MonoBehaviour
-{ 
+{
     private Camera leftCamera;
     private Camera rightCamera;
     private Camera centerCamera;
@@ -28,7 +28,7 @@ public class CC_CAMERASTEREO : MonoBehaviour
     void Awake() { }
 
 
-    public void createStereoCameras(bool isDestinySetup)
+    public void createStereoCameras(bool isDestiny)
     {
         //Create two new GameObjects
         GameObject leftCameraOBJ = new GameObject("LeftCamera");
@@ -53,8 +53,21 @@ public class CC_CAMERASTEREO : MonoBehaviour
         leftCamera.nearClipPlane = centerCamera.nearClipPlane;
         rightCamera.nearClipPlane = centerCamera.nearClipPlane;
 
-        if (!isDestinySetup)
+        if (isDestiny)
         {
+
+
+            //The cameras don't actually draw to the screen but create RenderTextures.
+            leftCameraRT = new RenderTexture(Screen.width/2, Screen.height/2, 24);
+            rightCameraRT = new RenderTexture(Screen.width/2, Screen.height/2, 24);
+            centerCameraRT = new RenderTexture(Screen.width/2, Screen.height/2, 24);
+            leftCamera.targetTexture = leftCameraRT;
+            rightCamera.targetTexture = rightCameraRT;
+            centerCamera.targetTexture = centerCameraRT;
+        }
+        else
+        {
+
             //Add a CC_CAMERAOFFSET script to both new camera gameobjects. 
             leftCameraOBJ.AddComponent<CC_CAMERAOFFSET>();
             rightCameraOBJ.AddComponent<CC_CAMERAOFFSET>();
@@ -64,15 +77,15 @@ public class CC_CAMERASTEREO : MonoBehaviour
             projectionScreen = GetComponent<CC_CAMERAOFFSET>().getProjectionScreen();
             leftCameraOBJ.GetComponent<CC_CAMERAOFFSET>().setProjectionScreen(projectionScreen);
             rightCameraOBJ.GetComponent<CC_CAMERAOFFSET>().setProjectionScreen(projectionScreen);
-        }
 
-        //The cameras don't actually draw to the screen but create RenderTextures.
-        leftCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
-        rightCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
-        centerCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
-        leftCamera.targetTexture = leftCameraRT;
-        rightCamera.targetTexture = rightCameraRT;
-        centerCamera.targetTexture = centerCameraRT;
+            //The cameras don't actually draw to the screen but create RenderTextures.
+            leftCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
+            rightCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
+            centerCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
+            leftCamera.targetTexture = leftCameraRT;
+            rightCamera.targetTexture = rightCameraRT;
+            centerCamera.targetTexture = centerCameraRT;
+        }
 
     }
 
@@ -95,19 +108,36 @@ public class CC_CAMERASTEREO : MonoBehaviour
     //First we have to set the TargetTexture to null on each camera, you can't release unless you do.
     //Release the RenderTexture from resources.
     //Create a new RenderTextures and set them as the new TargetTexture on each camera.
-    public void updateScreenAspect()
+    public void updateScreenAspect(bool isDestiny)
     {
-        leftCamera.targetTexture = null;
-        leftCameraRT.Release();
-        leftCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
+        if (isDestiny)
+        {
+            leftCamera.targetTexture = null;
+            leftCameraRT.Release();
+            leftCameraRT = new RenderTexture(Screen.width/2, Screen.height/2, 24);
 
-        rightCamera.targetTexture = null;
-        rightCameraRT.Release();
-        rightCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
+            rightCamera.targetTexture = null;
+            rightCameraRT.Release();
+            rightCameraRT = new RenderTexture(Screen.width/2, Screen.height/2, 24);
 
-        centerCamera.targetTexture = null;
-        centerCameraRT.Release();
-        centerCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
+            centerCamera.targetTexture = null;
+            centerCameraRT.Release();
+            centerCameraRT = new RenderTexture(Screen.width/2, Screen.height/2, 24);
+        }
+        else
+        {
+            leftCamera.targetTexture = null;
+            leftCameraRT.Release();
+            leftCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
+
+            rightCamera.targetTexture = null;
+            rightCameraRT.Release();
+            rightCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
+
+            centerCamera.targetTexture = null;
+            centerCameraRT.Release();
+            centerCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
+        }
 
 
         leftCamera.targetTexture = leftCameraRT;
