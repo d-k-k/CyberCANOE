@@ -94,7 +94,7 @@ public class CC_CAMERA : MonoBehaviour
         {
             if (CC_COMMANDLINE.isInnovator())
                 selectCamera = SelectedCamera.Innovator;
-            else if (CC_COMMANDLINE.isDestiny() || CC_COMMANDLINE.isLocalCluster())
+            else if (CC_COMMANDLINE.isDestiny())
                 selectCamera = SelectedCamera.Destiny;
             else
                 selectCamera = SelectedCamera.Simulator;

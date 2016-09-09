@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 /* 
-Class to obtain command line arguments and position Unity Windows.
+Class to obtain command line arguments.
 
 CyberCANOE Virtual Reality API for Unity3D
 Modified by Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
@@ -41,22 +41,6 @@ public static class CC_COMMANDLINE {
 
     }
 
-
-    //Check to see if this is a local cluster setup that will run the master and all clients on a single computer
-    public static bool isLocalCluster()
-    {
-        string cmdIndex = GetCmdArguments("-platform");
-
-        if (cmdIndex != null)
-        {
-            if (cmdIndex.Equals("localcluster"))
-                return true;
-            else
-                return false;
-        }
-        else return false;
-    }
-
     //Check to see if this is a Destiny setup
     public static bool isDestiny()
     {
@@ -87,35 +71,20 @@ public static class CC_COMMANDLINE {
         else return false;
     }
 
-    //Get the resolution height of the application
-    public static int GetResHeight()
+    //Check to see if this is a Innovator setup
+    public static int isSimulator()
     {
-        int x;
-        Int32.TryParse(GetCmdArguments("-height"), out x);
-        return x;
+        string cmdIndex = GetCmdArguments("-simulator");
+
+        if (cmdIndex != null)
+        {
+            int parseInt =  int.Parse(cmdIndex);
+            if (parseInt == 1)
+                return 1;
+            else
+                return 0;
+        }
+        else return 2;
     }
-
-    //Get the resolution height of the application
-    public static int GetResWidth()
-    {
-        int x;
-        Int32.TryParse(GetCmdArguments("-width"), out x);
-        return x;
-    }
-
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR
-    [DllImport("user32.dll", EntryPoint = "SetWindowText")]
-    public static extern bool SetWindowText(System.IntPtr hwnd, System.String lpString);
-    [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
-    private static extern bool SetWindowPos(IntPtr hwnd, int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
-    [DllImport("user32.dll", EntryPoint = "FindWindow")]
-    public static extern IntPtr FindWindow(System.String className, System.String windowName);
-
-    public static void SetPosition(int x, int y, string windowName, int resX = 0, int resY = 0)
-    {
-        SetWindowPos(FindWindow(null, windowName), 0, x, y, resX, resY, resX * resY == 0 ? 1 : 0);
-    }
-#endif
-
 
 }

@@ -52,6 +52,18 @@ public class CC_TRACKER : MonoBehaviour
         CC_HEAD_TRACKER = transform.GetChild(0).FindChild("CC_FLAT_HEAD").gameObject;
         CC_WAND0_TRACKER = transform.GetChild(0).FindChild("CC_FLAT_WAND0").gameObject;
         CC_WAND1_TRACKER = transform.GetChild(0).FindChild("CC_FLAT_WAND1").gameObject;
+
+        //Check For Simulator setting
+        //If command argument use project setting (value 2)
+        if(!Application.isEditor)
+        {
+            if (CC_COMMANDLINE.isSimulator() == 2)
+                { }
+            else if (CC_COMMANDLINE.isSimulator() == 1)
+                simulatorMode = true;
+            else if (CC_COMMANDLINE.isSimulator() == 0)
+                simulatorMode = false;
+        }
     }
 
     void Start()
