@@ -1,4 +1,6 @@
 
+The parameter **wandNum** refers to the Wand Number. The **left wand is 0**, the **right wand is 1**. More wand numbers may be added at a later date. 
+
 ## [CC_CANOE](#canoe)
 + **WandTransform(int wandNum)**  
   + Returns the Transform of the specified wand.
