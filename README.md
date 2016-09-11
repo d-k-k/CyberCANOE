@@ -13,9 +13,8 @@ The Destiny-class CyberCANOE provides 16X the resolution of Innovator as well as
 
 <img src="https://github.com/rctheriot/CyberCANOE/blob/master/common/images/destiny.png" width="400">
 
-
 ## Resources
 
 * [CyberCANOE Wiki](https://github.com/rctheriot/CyberCANOE/wiki)  
 * [Unity Documentation](https://docs.unity3d.com/Manual/index.html)  
-<a href="http://lava.manoa.hawaii.edu/"><img src="https://github.com/rctheriot/CyberCANOE/blob/master/common/images/lava.png" hspace="10" vspace="6" height="70"></a>
+* [LAVA Homepage](http://lava.manoa.hawaii.edu/)  
