@@ -1,7 +1,7 @@
 * [CC_CANOE](#canoe)
 * [CC_WANDCONTROLS](#controls)
 
-## [CC_CANOE (canoe)](https://github.com/rctheriot/CyberCANOE/master/API.md#canoe)
+## [CC_CANOE (canoe)](https://github.com/rctheriot/CyberCANOE/blob/master/API.md#canoe)
 + **WandTransform(int wandNum)**  
   + Returns the Transform of the specified wand.
 + **WandGameObject(int wandNum)**
@@ -17,7 +17,7 @@
 + **CanoeCharacterController()**
   + Returns the CharacterController of the canoe
 
-## [CC_WANDCONTROLS (controls)](https://github.com/rctheriot/CyberCANOE/master/API.md#controls)
+## [CC_WANDCONTROLS (controls)](https://github.com/rctheriot/CyberCANOE/blob/master/API.md#controls)
 + **Button_X_DOWN(int wandNum)**
   + Returns true at the frame the 'X' button starts to press down (not held down) by the specified wand.
 + **Button_X_UP(int wandNum)**
