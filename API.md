@@ -1,11 +1,4 @@
-# CyberCANOE API Reference
-
-* [CC_CANOE](#canoe)
-* [CC_WANDCONTROLS](#controls)
-
----
-
-## [CC_CANOE (canoe)]
+## [CC_CANOE]
 + **WandTransform(int wandNum)**  
   + Returns the Transform of the specified wand.
 + **WandGameObject(int wandNum)**
@@ -21,7 +14,7 @@
 + **CanoeCharacterController()**
   + Returns the CharacterController of the canoe
 
-## [CC_WANDCONTROLS (controls)]
+## [CC_WANDCONTROLS]
 + **Button_X_DOWN(int wandNum)**
   + Returns true at the frame the 'X' button starts to press down (not held down) by the specified wand.
 + **Button_X_UP(int wandNum)**
