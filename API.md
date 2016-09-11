@@ -1,3 +1,6 @@
+* [CC_CANOE](#canoe)
+* [CC_WANDCONTROLS](#controls)
+
 ## [CC_CANOE (canoe)](https://github.com/rctheriot/CyberCANOE/master/API.md#canoe)
 + **WandTransform(int wandNum)**  
   + Returns the Transform of the specified wand.
