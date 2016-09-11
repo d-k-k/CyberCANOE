@@ -1,6 +1,6 @@
-# Unity CyberCANOE Software Development Library 
-
 <a href="http://lava.manoa.hawaii.edu/"><img src="https://github.com/rctheriot/CyberCANOE/blob/master/common/images/lava.png" align="left" hspace="10" vspace="6" height="70"></a>
+
+# Unity CyberCANOE Software Development Library 
 
 Jason Leigh, Ryan Theriot  
 September 14th, 2016  
