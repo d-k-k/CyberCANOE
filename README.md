@@ -1,7 +1,5 @@
 # Unity CyberCANOE Software Development Library 
 
-<a href="http://lava.manoa.hawaii.edu/"><img src="https://github.com/rctheriot/CyberCANOE/blob/master/common/images/lava.png" align="left" hspace="10" vspace="6" height="70"></a>
-
 Jason Leigh, Ryan Theriot  
 September 14th, 2016  
 Laboratory for Advanced Visualizations and Applications at the University of Hawaii at Manoa  
@@ -20,4 +18,4 @@ The Destiny-class CyberCANOE provides 16X the resolution of Innovator as well as
 
 * [CyberCANOE Wiki](https://github.com/rctheriot/CyberCANOE/wiki)
 * [Unity Documentation](https://docs.unity3d.com/Manual/index.html)
-
+<a href="http://lava.manoa.hawaii.edu/"><img src="https://github.com/rctheriot/CyberCANOE/blob/master/common/images/lava.png" align="left" hspace="10" vspace="6" height="70"></a>
