@@ -3,7 +3,7 @@ Stereoscopic Shader
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 5th, 2016.
+Version: September 9th, 2016.
 */
 
 Shader "CC_Shaders/CC_StereoShaderDestiny" {
@@ -129,7 +129,6 @@ Shader "CC_Shaders/CC_StereoShaderDestiny" {
 
 				if (IN.uv.x <= 0.5 && IN.uv.y > 0.5) 
 				{
-
 					float2 uvCoord;
 					uvCoord.x = IN.uv.x  * 2;
 					uvCoord.y = (IN.uv.y - 0.5f) * 2;

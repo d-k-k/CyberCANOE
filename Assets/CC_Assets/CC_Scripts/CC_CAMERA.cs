@@ -5,7 +5,7 @@ Manages the cameras of the CyberCANOE.
  
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 5th, 2016.
+Version: September 9th, 2016.
 */
 
 /// <summary> Manages all the cameras for Destiny and Innovator required for stereocropic and off-axis projection. </summary>
@@ -27,6 +27,7 @@ public class CC_CAMERA : MonoBehaviour
 
     private Camera[] destinyCameras;
     private Camera innovatorCamera;
+    private Camera simCam;
 
     private GameObject innovatorCameraGroup;
     private GameObject destinyCameraGroup;
@@ -45,19 +46,28 @@ public class CC_CAMERA : MonoBehaviour
     public Material innovatorStereoMaterial;
 
     private float savedAspectRatio;
-    private float interaxialTimeChange;
+    private bool panOptic;
+    private float guiTimeChange;
+    private string guiDisplay;
     private GUIStyle style;
+
 
     void Start()
     {
-      
-        //If in editor set the starting destiny camera to 4. It is near the middle. 
-        if (Application.isEditor) destinyCameraIndex = 4;
 
         //Get camera groups
         innovatorCameraGroup = transform.FindChild("CC_INNOVATOR_CAMERAS").gameObject;
         destinyCameraGroup = transform.FindChild("CC_DESTINY_CAMERAS").gameObject;
         simulatorCameraGroup = transform.FindChild("CC_SIM_CAMERA").gameObject;
+
+        //Simulator Camera Setup
+        simCam = simulatorCameraGroup.GetComponent<Camera>();
+        simCam.rect = GetComponent<Camera>().rect;
+        simCam.nearClipPlane = GetComponent<Camera>().nearClipPlane;
+        simCam.farClipPlane = GetComponent<Camera>().farClipPlane;
+        simCam.clearFlags = GetComponent<Camera>().clearFlags;
+        simCam.backgroundColor = GetComponent<Camera>().backgroundColor;
+        simCam.cullingMask = GetComponent<Camera>().cullingMask;
 
         //Innovator Camera Setup
         innovatorCamera = innovatorCameraGroup.transform.GetChild(0).gameObject.GetComponent<Camera>();
@@ -69,9 +79,10 @@ public class CC_CAMERA : MonoBehaviour
         destinyCameras[1] = destinyCameraGroup.transform.GetChild(1).GetComponent<Camera>();
         destinyCameras[2] = destinyCameraGroup.transform.GetChild(2).GetComponent<Camera>();
         destinyCameras[3] = destinyCameraGroup.transform.GetChild(3).GetComponent<Camera>();
-
         for (int i = 0; i < 4; i++)
+        {
             destinyCameras[i].GetComponent<CC_CAMERASTEREO>().createStereoCameras(true);
+        }
 
         //Update Cameras
         updateCamerasInteraxials();
@@ -82,11 +93,12 @@ public class CC_CAMERA : MonoBehaviour
         savedAspectRatio = GetComponent<Camera>().aspect;
         savedStereo = enableStereo;
         savedInteraxial = interaxial;
+        panOptic = false;
 
-        //INTERAXIAL GUI SETUP
-        interaxialTimeChange = -3;
+        //GUI Setup
         style = new GUIStyle();
-        style.fontSize = 20;
+        if (CC_COMMANDLINE.isDestiny() || CC_COMMANDLINE.isInnovator()) style.fontSize = 100;
+        style.fontSize = 25;
         style.normal.textColor = Color.white;
 
         //Set startup camera according to platform
@@ -106,7 +118,7 @@ public class CC_CAMERA : MonoBehaviour
     void Update()
     {
         //Change cameras
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             selectCamera++;
             if ((int)selectCamera == 3) selectCamera = 0;
@@ -116,22 +128,31 @@ public class CC_CAMERA : MonoBehaviour
         //Change interaxial
         if (Input.GetKeyDown(KeyCode.Equals)) interaxial += .001f;
         if (Input.GetKeyDown(KeyCode.Minus)) interaxial -= .001f;
+        if (savedInteraxial != interaxial)
+            updateCamerasInteraxials();
 
         //Enable/disable stereoscopic.
-        if (Input.GetKeyDown("o"))
+        if (Input.GetKeyDown(KeyCode.Alpha9))
             enableStereo = !enableStereo;
-
-        //Checks to see if the stereo setting has changed.
         if (savedStereo != enableStereo)
             updateCamerasStereo();
 
-        //Checks for changes to interaxial and updates camera's interaxial accordingly.
-        if (savedInteraxial != interaxial)
-            updateCamerasInteraxials();
+        //Enable/disable Panoptic for Destiny.
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            panOptic = !panOptic;
+            guiTimeChange = Time.time;
+            guiDisplay = "panopticGUI";
+        }
 
         //Checkes for changes to the aspect ratio for innovator and upadtes camera's accordingly.
         if (savedAspectRatio != GetComponent<Camera>().aspect)
             updateCamerasAspectRatio();
+
+        //Change the Destiny Camera Index
+        if (Input.GetKeyDown(KeyCode.LeftBracket)) destinyCameraIndex++;
+        if (Input.GetKeyDown(KeyCode.RightBracket)) destinyCameraIndex--;
+        destinyCameraIndex = Mathf.Clamp(destinyCameraIndex, 0, 7);
 
     }
     
@@ -140,7 +161,7 @@ public class CC_CAMERA : MonoBehaviour
         SetDestinyPerspective();
     }
 
-    //Stereoscopic
+    
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         if (selectCamera == SelectedCamera.Destiny)
@@ -222,14 +243,16 @@ public class CC_CAMERA : MonoBehaviour
                 savedSelCam = selectCamera;
                 break;
         }
+        guiTimeChange = Time.time;
+        guiDisplay = "cameraGUI";
     }
 
     //Set the perspective of the Destiny camera rig.
     void SetDestinyPerspective()
     {
-        if (Application.isEditor)
+        if (!CC_COMMANDLINE.isDestiny())
         {
-            m_DestinyCameraRig.updateCameraPerspective(destinyCameras, destinyCameraIndex);
+            m_DestinyCameraRig.updateCameraPerspective(destinyCameras, destinyCameraIndex, panOptic);
         }
         else
         {
@@ -237,12 +260,12 @@ public class CC_CAMERA : MonoBehaviour
 
             if (cameraIndex == -1) return;
 
-            m_DestinyCameraRig.updateCameraPerspective(destinyCameras, cameraIndex);
+            m_DestinyCameraRig.updateCameraPerspective(destinyCameras, cameraIndex, panOptic);
         }
 
     }
 
-    //Updates innovator's camera when aspect ratio changes.
+    //Updates each camera's aspect ratio.
     private void updateCamerasAspectRatio()
     {
         innovatorCamera.GetComponent<CC_CAMERASTEREO>().updateScreenAspect(false);
@@ -265,17 +288,20 @@ public class CC_CAMERA : MonoBehaviour
         }
 
         savedStereo = enableStereo;
+        guiTimeChange = Time.time;
+        guiDisplay = "stereoGUI";
     }
 
-    //Updates each camera child's interaxial setting.
+    //Updates each camera's interaxial setting.
     private void updateCamerasInteraxials()
     {
-        interaxialTimeChange = Time.time;
-        GameObject head = GameObject.Find("CC_HEAD");
-
+        GameObject head = gameObject;
         innovatorCamera.GetComponent<CC_CAMERASTEREO>().updateInteraxial(head, interaxial);
         m_DestinyCameraRig.updateCameraInteraxials(destinyCameras, interaxial);
+
         savedInteraxial = interaxial;
+        guiTimeChange = Time.time;
+        guiDisplay = "interaxialGUI";
     }
 
     //Displays the current interaxial setting to the screen.
@@ -283,9 +309,22 @@ public class CC_CAMERA : MonoBehaviour
     {
         string value = (interaxial * 1000).ToString("00.");
 
-        if (Time.time - interaxialTimeChange < 3)
+        if (Time.time - guiTimeChange < 3)
         {
-            GUI.Label(new Rect(Screen.width / 2 - 130, Screen.height / 2, 200, 100), "Interpupillary Distance: " + value + "mm", style);
+            Rect textRect = new Rect();
+            if (CC_COMMANDLINE.isInnovator() || CC_COMMANDLINE.isDestiny())
+                textRect = new Rect(15, Screen.height - 115, 200, 100);
+            else
+                textRect = new Rect(5, Screen.height - 30, 200, 100);
+
+            if (guiDisplay.Equals("interaxialGUI"))
+                GUI.Label(textRect, "Pupillary Distance: " + value + "mm", style);
+            else if (guiDisplay.Equals("stereoGUI"))
+                GUI.Label(textRect, "Stereo: " + savedStereo, style);
+            else if (guiDisplay.Equals("panopticGUI"))
+                GUI.Label(textRect, "Panoptic: " + panOptic, style);
+            else if (guiDisplay.Equals("cameraGUI"))
+                GUI.Label(textRect, "Camera: " + selectCamera.ToString(), style);
         }
 
     }

@@ -9,7 +9,7 @@ The Simulator controls can be seen ingame with '?' key.
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 5th, 2016.
+Version: September 9th, 2016.
  */
 
 /// <summary> Retrives information of the head and wand positions and rotations by interfacing with MotiveDirect. </summary>
@@ -32,7 +32,7 @@ public class CC_TRACKER : MonoBehaviour
     private Quaternion[] wandRotation;
 
     private float WAND_X_SPAN = 2.0f;
-    private float WAND_Y_SPAN = 2.0f;
+    private float WAND_Y_SPAN = 1.5f;
     private float WAND_Z_SPAN = 2.0f;
     private float SHOULDER_HEIGHT = 1.5f;
     private float ARM_DISTANCE_IN_FRONT = 1.0f;
@@ -57,12 +57,12 @@ public class CC_TRACKER : MonoBehaviour
         //If command argument use project setting (value 2)
         if(!Application.isEditor)
         {
-            if (CC_COMMANDLINE.isSimulator() == 2)
+            if (CC_COMMANDLINE.isTracking() == 2)
                 { }
-            else if (CC_COMMANDLINE.isSimulator() == 1)
-                simulatorMode = true;
-            else if (CC_COMMANDLINE.isSimulator() == 0)
+            else if (CC_COMMANDLINE.isTracking() == 1)
                 simulatorMode = false;
+            else if (CC_COMMANDLINE.isTracking() == 0)
+                simulatorMode = true;
         }
     }
 
@@ -105,7 +105,7 @@ public class CC_TRACKER : MonoBehaviour
             headSimulation(mouseX, mouseY);
 
             //Reset simulator positions
-            if (Input.GetKeyDown("return"))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 setDefaultPositions();
             }
@@ -157,14 +157,14 @@ public class CC_TRACKER : MonoBehaviour
         float same;
 
         //Turn head.
-        if (Input.GetKey("q"))
+        if (Input.GetKey(KeyCode.Q))
         {
             headRotation = Quaternion.AngleAxis(mouseX * HEAD_SPAN - (HEAD_SPAN / 2), Vector3.up) * Quaternion.AngleAxis(-(mouseY * HEAD_SPAN / 2 - (HEAD_SPAN / 4)), Vector3.right);
 
         }
 
         //Move the head left/right and forward/backward.
-        if (Input.GetKey("z"))
+        if (Input.GetKey(KeyCode.Z))
         {
             same = headPosition.z;
             headPosition = new Vector3(mouseX * HEAD_X_SPAN - (HEAD_X_SPAN / 2), mouseY * HEAD_Y_SPAN / 2 + SHOULDER_HEIGHT, same);
@@ -174,7 +174,7 @@ public class CC_TRACKER : MonoBehaviour
         }
 
         //Move the head left/right and up/down.
-        if (Input.GetKey("c"))
+        if (Input.GetKey(KeyCode.C))
         {
             same = headPosition.y;
             headPosition = new Vector3(mouseX * HEAD_X_SPAN - (HEAD_X_SPAN / 2), same, mouseY * HEAD_Z_SPAN / 2);
@@ -184,7 +184,7 @@ public class CC_TRACKER : MonoBehaviour
         }
 
         //Roll the head
-        if (Input.GetKey("e"))
+        if (Input.GetKey(KeyCode.E))
         {
             if (twistHeadStarted == 0)
             {
@@ -208,19 +208,19 @@ public class CC_TRACKER : MonoBehaviour
     private void wandSimulation(float mouseX, float mouseY)
     {
         //Move wand left/right and up/down.
-        if (Input.GetKey("v"))
+        if (Input.GetKey(KeyCode.N))
         {
-            wandPosition[simulatorActiveWand] = new Vector3(mouseX * WAND_X_SPAN - (WAND_X_SPAN / 2), mouseY * WAND_Y_SPAN / 2 + SHOULDER_HEIGHT, ARM_DISTANCE_IN_FRONT);
+            wandPosition[simulatorActiveWand] = new Vector3(mouseX * WAND_X_SPAN - (WAND_X_SPAN / 2), mouseY * WAND_Y_SPAN - (WAND_Y_SPAN / 2) + SHOULDER_HEIGHT, ARM_DISTANCE_IN_FRONT);
         }
 
         //Move wand left/right and forward/backward.
-        if (Input.GetKey("b"))
+        if (Input.GetKey(KeyCode.Comma))
         {
             wandPosition[simulatorActiveWand] = new Vector3(mouseX * WAND_X_SPAN - (WAND_X_SPAN / 2), SHOULDER_HEIGHT, mouseY * WAND_Z_SPAN);
         }
 
         //Yaw/pitch wand.
-        if (Input.GetKey("r"))
+        if (Input.GetKey(KeyCode.Y))
         {
             if (rotateStarted == 0)
             {
@@ -239,7 +239,7 @@ public class CC_TRACKER : MonoBehaviour
         }
 
         //Roll Wand.
-        if (Input.GetKey("t"))
+        if (Input.GetKey(KeyCode.I))
         { 
             if (twistStarted == 0)
             {

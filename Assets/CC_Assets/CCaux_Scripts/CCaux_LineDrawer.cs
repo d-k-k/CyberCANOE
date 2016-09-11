@@ -11,7 +11,7 @@ Dpad Up - Choose new color
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 5th, 2016.
+Version: September 9th, 2016.
 */
 
 public class CCaux_LineDrawer : MonoBehaviour
@@ -37,7 +37,7 @@ public class CCaux_LineDrawer : MonoBehaviour
 
     }
 
-    void Update()
+    void LateUpdate()
     {
         //Draw line for left wand.
         if (CC_WANDCONTROLS.Axis_Trigger(0) > 0.0)

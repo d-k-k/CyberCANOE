@@ -9,7 +9,7 @@ Must click the "CLICK HERE BEFORE BUIDLING" button on the CC_CANOE GameObject.
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 5th, 2016.
+Version: September 8th, 2016.
  */
 
 /// <summary> Performs miscellaneous tasks before buidling project. </summary>
@@ -36,10 +36,10 @@ public class CC_EDITORCANOE : Editor
     {
         GameObject.Find("CC_CANOE").GetComponent<CC_CANOE>().productName = Application.productName;
         GameObject.Find("CC_CANOE").GetComponent<CC_CANOE>().showScreen = CC_CANOE.ShowScreen.None;
-        GameObject.Find("CC_TRACKER").GetComponent<CC_TRACKER>().simulatorMode = false;
         PlayerSettings.defaultIsFullScreen = false;
         PlayerSettings.displayResolutionDialog = ResolutionDialogSetting.Disabled;
         PlayerSettings.resizableWindow = true;
 
     }
+
 }

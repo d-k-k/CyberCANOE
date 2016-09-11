@@ -9,7 +9,7 @@ Shoulder Button - Grab object
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 5th, 2016.
+Version: September 9th, 2016.
  */
 
 public class CCaux_Grabber : MonoBehaviour
@@ -31,7 +31,7 @@ public class CCaux_Grabber : MonoBehaviour
     void Update()
     {
 
-        if (CC_WANDCONTROLS.Button_Shoulder_PRESS(wandNum) || Input.GetMouseButton(wandNum))
+        if (CC_WANDCONTROLS.Button_Shoulder_PRESS(wandNum))
         {
             if (grabbedObject == null)
             {

@@ -7,7 +7,7 @@ Each camera rigg is composed of four cameras, one for each screen.
 
 CyberCANOE Virtual Reality API for Unity3D
 Modified by Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 5th, 2016.
+Version: September 9th, 2016.
  */
 
 /// <summary> Destiny's Camera Rig for each cluster. </summary>
@@ -16,7 +16,7 @@ public class CC_CAMERARIG
 {
     public GameObject Screens;
 
-    public void updateCameraPerspective(Camera[] cameras, int cameraIndex)
+    public void updateCameraPerspective(Camera[] cameras, int cameraIndex, bool panOptic)
     {
         //Get this camera's projection screen
         GameObject[] projScreens = new GameObject[4];
@@ -25,22 +25,31 @@ public class CC_CAMERARIG
         projScreens[2] = Screens.transform.GetChild(cameraIndex * 4 + 2).gameObject;
         projScreens[3] = Screens.transform.GetChild(cameraIndex * 4 + 3).gameObject;
 
+        //Set each camera's rotation depending on PanOptic setting
+        if (panOptic)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Vector3 projRot = projScreens[i].transform.localEulerAngles;
+                cameras[i].transform.localEulerAngles = new Vector3(projRot.x, projRot.y - 180, projRot.z);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                cameras[i].transform.localEulerAngles = Vector3.zero;
+            }
+        }
+
         //Set each camera's projection
-        PerspectiveOffCenter(cameras[0], projScreens[0]);
-        PerspectiveOffCenter(cameras[0].transform.GetChild(0).GetComponent<Camera>(), projScreens[0]);
-        PerspectiveOffCenter(cameras[0].transform.GetChild(1).GetComponent<Camera>(), projScreens[0]);
-
-        PerspectiveOffCenter(cameras[1], projScreens[1]);
-        PerspectiveOffCenter(cameras[1].transform.GetChild(0).GetComponent<Camera>(), projScreens[1]);
-        PerspectiveOffCenter(cameras[1].transform.GetChild(1).GetComponent<Camera>(), projScreens[1]);
-
-        PerspectiveOffCenter(cameras[2], projScreens[2]);
-        PerspectiveOffCenter(cameras[2].transform.GetChild(0).GetComponent<Camera>(), projScreens[2]);
-        PerspectiveOffCenter(cameras[2].transform.GetChild(1).GetComponent<Camera>(), projScreens[2]);
-
-        PerspectiveOffCenter(cameras[3], projScreens[3]);
-        PerspectiveOffCenter(cameras[3].transform.GetChild(0).GetComponent<Camera>(), projScreens[3]);
-        PerspectiveOffCenter(cameras[3].transform.GetChild(1).GetComponent<Camera>(), projScreens[3]);
+        for (int i = 0; i < 4; i++)
+        {
+            PerspectiveOffCenter(cameras[i], projScreens[i]);
+            PerspectiveOffCenter(cameras[i].transform.GetChild(0).GetComponent<Camera>(), projScreens[i]);
+            PerspectiveOffCenter(cameras[i].transform.GetChild(1).GetComponent<Camera>(), projScreens[i]);
+        }
+            
     }
 
     //Updates each camera child's interaxial setting.

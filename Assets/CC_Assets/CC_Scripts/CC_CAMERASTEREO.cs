@@ -11,7 +11,7 @@ global interaxial distance.
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 5th, 2016.
+Version: September 9th, 2016.
  */
 
 /// <summary> Turns camera into a stereoscopic capabale camera. </summary>
@@ -45,18 +45,32 @@ public class CC_CAMERASTEREO : MonoBehaviour
         rightCameraOBJ.transform.SetParent(transform);
 
         //Add a camera component to both objects.
-        this.centerCamera = GetComponent<Camera>();
-        this.leftCamera = leftCameraOBJ.GetComponent<Camera>();
-        this.rightCamera = rightCameraOBJ.GetComponent<Camera>();
-        this.leftCamera.rect = centerCamera.rect;
-        this.rightCamera.rect = centerCamera.rect;
+        Camera mainCamera = GameObject.Find("CC_HEAD").GetComponent<Camera>();
+        centerCamera = GetComponent<Camera>();
+        centerCamera.nearClipPlane = mainCamera.nearClipPlane;
+        centerCamera.farClipPlane = mainCamera.farClipPlane;
+        centerCamera.clearFlags = mainCamera.clearFlags;
+        centerCamera.backgroundColor = mainCamera.backgroundColor;
+        centerCamera.cullingMask = mainCamera.cullingMask;
+
+        leftCamera = leftCameraOBJ.GetComponent<Camera>();
+        leftCamera.rect = centerCamera.rect;
         leftCamera.nearClipPlane = centerCamera.nearClipPlane;
+        leftCamera.farClipPlane = centerCamera.farClipPlane;
+        leftCamera.clearFlags = centerCamera.clearFlags;
+        leftCamera.backgroundColor = centerCamera.backgroundColor;
+        leftCamera.cullingMask = centerCamera.cullingMask;
+
+        rightCamera = rightCameraOBJ.GetComponent<Camera>();
+        rightCamera.rect = centerCamera.rect;
         rightCamera.nearClipPlane = centerCamera.nearClipPlane;
+        rightCamera.farClipPlane = centerCamera.farClipPlane;
+        rightCamera.clearFlags = centerCamera.clearFlags;
+        rightCamera.backgroundColor = centerCamera.backgroundColor;
+        rightCamera.cullingMask = centerCamera.cullingMask;
 
         if (isDestiny)
         {
-
-
             //The cameras don't actually draw to the screen but create RenderTextures.
             leftCameraRT = new RenderTexture(Screen.width/2, Screen.height/2, 24);
             rightCameraRT = new RenderTexture(Screen.width/2, Screen.height/2, 24);

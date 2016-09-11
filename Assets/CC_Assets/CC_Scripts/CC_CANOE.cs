@@ -8,7 +8,7 @@ The main class the user will interface with to retrieve Wand, Head, and Characte
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 5th, 2016.
+Version: September 9th, 2016.
  */
 
 /// <summary> The main class to interface with to retrieve Wand, Head, and CharacterController information. </summary>
@@ -23,6 +23,10 @@ public class CC_CANOE : MonoBehaviour
     public float navigationSpeed = 5.0f;
     [Tooltip("Rotation speed. Only affects simulator controls.")]
     public float navigationRotationSpeed = 1.25f;
+    [HideInInspector]
+    public float pitch;
+    [HideInInspector]
+    public float yaw;
 
     [Header("Wand Settings")]
     [Tooltip("Which wand models you wish to be visable")]
@@ -45,6 +49,7 @@ public class CC_CANOE : MonoBehaviour
     private static GameObject[] CC_WAND;
     private static GameObject CC_HEAD;
     private static CharacterController charController;
+
 
     //GLOBAL GET METHODS
     /// <summary>
@@ -137,16 +142,18 @@ public class CC_CANOE : MonoBehaviour
 
         //Move forward and backward - Keyboard input only.
         float curSpeed = 0.0f;
-        if (Input.GetKey("w")) curSpeed += navigationSpeed;
-        if (Input.GetKey("s")) curSpeed -= navigationSpeed;
+        if (Input.GetKey(KeyCode.W)) curSpeed += navigationSpeed;
+        if (Input.GetKey(KeyCode.S)) curSpeed -= navigationSpeed;
         Vector3 forward = CC_WAND[0].transform.TransformDirection(Vector3.forward);
         charController.Move(forward * curSpeed * Time.deltaTime);
 
         //Rotate around y - axis - Keyboard input only.
-        float rotation = 0.0f;
-        if (Input.GetKey("d")) rotation += navigationRotationSpeed;
-        if (Input.GetKey("a")) rotation -= navigationRotationSpeed;
-        charController.transform.Rotate(0, rotation, 0);
+        if (Input.GetKey(KeyCode.D)) yaw += navigationRotationSpeed;
+        if (Input.GetKey(KeyCode.A)) yaw -= navigationRotationSpeed;
+        //Yaw Correction
+        if (yaw >= 360 || yaw <= -360) yaw = 0;
+        //Change the direction the CharacterController is facing.
+        charController.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
 
         //Gravity
         if (applyGravity)
@@ -155,23 +162,16 @@ public class CC_CANOE : MonoBehaviour
             charController.SimpleMove(Vector3.zero);
         }
 
-        // Show and hide the Innovator's screen.
-        if (Input.GetKeyDown("x"))
+        // Show and hide the CyberCANOE's screen.
+        if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             showScreen++;
             if ((int)showScreen == 3) showScreen = 0;
         }
         if (savedSelScreen != showScreen) changeScreens();
 
-
-        //Show and hide Simulator Mode help screen.
-        if (Input.GetKeyDown("/"))
-        {
-            CC_GUI.SetActive(!CC_GUI.activeInHierarchy);
-        }
-
         //Change wand models
-        if (Input.GetKeyDown("m"))
+        if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             wandModel++;
             if ((int)wandModel == 3) wandModel = 0;
@@ -180,6 +180,12 @@ public class CC_CANOE : MonoBehaviour
         if (wandModel != savedWandModel)
         {
             changeWandModels();
+        }
+
+        //Show and hide Simulator Mode help screen.
+        if (Input.GetKeyDown(KeyCode.Slash))
+        {
+            CC_GUI.SetActive(!CC_GUI.activeInHierarchy);
         }
 
         // Press the escape key to quit application

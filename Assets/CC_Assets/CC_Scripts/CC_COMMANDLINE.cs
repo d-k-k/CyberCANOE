@@ -6,7 +6,7 @@ Class to obtain command line arguments.
 
 CyberCANOE Virtual Reality API for Unity3D
 Modified by Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 5th, 2016.
+Version: September 9th, 2016.
  */
 
 /// <summary> Class to obtain command line arguments and position Unity Windows. </summary>
@@ -71,10 +71,10 @@ public static class CC_COMMANDLINE {
         else return false;
     }
 
-    //Check to see if this is a Innovator setup
-    public static int isSimulator()
+    //Check to see if tracking is enabled
+    public static int isTracking()
     {
-        string cmdIndex = GetCmdArguments("-simulator");
+        string cmdIndex = GetCmdArguments("-tracking");
 
         if (cmdIndex != null)
         {

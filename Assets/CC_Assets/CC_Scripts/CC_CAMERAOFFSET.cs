@@ -7,7 +7,7 @@ Obtained from https://en.wikibooks.org/wiki/Cg_Programming/Unity/Projection_for_
 
 CyberCANOE Virtual Reality API for Unity3D
 Modified by Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 5th, 2016.
+Version: September 9th, 2016.
  */
 
 /// <summary> Offaxis camera projection. </summary>
