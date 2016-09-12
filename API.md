@@ -4,7 +4,7 @@ The parameter **wandNum** refers to the Wand Number. The **left wand is 0**, the
 
 <h2 id="canoe">CC_CANOE</h2>
 ```c#
-WandTransform(int wandNum);  //Returns the Transform of the specified wand.
+CC_CANOE.WandTransform(int wandNum);  //Returns the Transform of the specified wand.
 ```
 ```c#
 WandGameObject(int wandNum);  //Returns the GameObject of the specified wand 
