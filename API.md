@@ -20,6 +20,7 @@ CC_CANOE.CanoeCharacterController(); //Returns the CharacterController attached 
 ```
 
 <h2 id="controls">CC_WANDCONTROLS</h2>
+```c#
 CC_WANDCONTROLS.Button_X_DOWN(int wandNum); //Returns true at the frame the 'X' button starts to press down (not held down) by the specified wand.
 CC_WANDCONTROLS.Button_X_UP(int wandNum); //Returns true at the frame the 'X' button is released by the specified wand.
 CC_WANDCONTROLS.Button_X_PRESS(int wandNum); //Returns if the 'X' button is held down by the specified wand.
@@ -55,4 +56,5 @@ CC_WANDCONTROLS.Dpad_Right_PRESS(int wandNum);  //Returns if the 'Dpad RIGHT' bu
 CC_WANDCONTROLS.Axis_Joystick_X(int wandNum);  //Returns the float number for the 'X-Axis' for the specified wand.
 CC_WANDCONTROLS.Axis_Joystick_Y(int wandNum);  //Returns the float number for the 'Y-Axis' for the specified wand.
 
-CC_WANDCONTROLS.Axis_Trigger(int wandNum);  //Returns the float number for the 'Trigger' for the specified wand. 
+CC_WANDCONTROLS.Axis_Trigger(int wandNum);  //Returns the float number for the 'Trigger' for the specified wand.
+```
