@@ -3,7 +3,9 @@
 The parameter **wandNum** refers to the Wand Number. The **left wand is 0**, the **right wand is 1**. More wand numbers may be added at a later date. 
 
 <h2 id="canoe">CC_CANOE</h2>
-+ **WandTransform(int wandNum)**  
+```c#
+WandTransform(int wandNum)**  
+```
   + Returns the Transform of the specified wand.
 + **WandGameObject(int wandNum)**
   + Returns the GameObject of the specified wand 
