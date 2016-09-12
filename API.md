@@ -34,7 +34,7 @@ CC_WANDCONTROLS.Button_X_DOWN(int wandNum);
 //Returns true at the frame the 'X' button is released by the specified wand.
 CC_WANDCONTROLS.Button_X_UP(int wandNum);
 
-//Returns if the 'X' button is held down by the specified wand.
+//Returns true if the 'X' button is held down by the specified wand.
 CC_WANDCONTROLS.Button_X_PRESS(int wandNum); 
 
 //Returns true at the frame the 'O' button starts to press down (not held down) by the specified wand.
@@ -97,7 +97,7 @@ CC_WANDCONTROLS.Dpad_Right_DOWN(int wandNum);
 //Returns true at the frame the 'Dpad RIGHT' button is released by the specified wand.
 CC_WANDCONTROLS.Dpad_Right_UP(int wandNum);  
 
-//Returns if the 'Dpad RIGHT' button is held down by the specified wand.
+//Returns true if the 'Dpad RIGHT' button is held down by the specified wand.
 CC_WANDCONTROLS.Dpad_Right_PRESS(int wandNum);  
 
 //Returns the float number for the 'X-Axis' for the specified wand.
