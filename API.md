@@ -4,11 +4,11 @@ The parameter **wandNum** refers to the Wand Number. The **left wand is 0**, the
 
 <h2 id="canoe">CC_CANOE</h2>
 ```c#
-WandTransform(int wandNum);  
+WandTransform(int wandNum);  //Returns the Transform of the specified wand.
 ```
-  + Returns the Transform of the specified wand.
-+ **WandGameObject(int wandNum)**
-  + Returns the GameObject of the specified wand 
+```c#
+WandGameObject(int wandNum);  //Returns the GameObject of the specified wand 
+```
 + **WandCollider(int wandNum)**
   + Returns the SphereCollider of the specified wand.
 + **HeadTransform()**
