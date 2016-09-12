@@ -106,5 +106,6 @@ CC_WANDCONTROLS.Axis_Joystick_X(int wandNum);
 //Returns the float number for the 'Y-Axis' for the specified wand.
 CC_WANDCONTROLS.Axis_Joystick_Y(int wandNum);  
 
-CC_WANDCONTROLS.Axis_Trigger(int wandNum);  //Returns the float number for the 'Trigger' for the specified wand.
+//Returns the float number for the 'Trigger' for the specified wand.
+CC_WANDCONTROLS.Axis_Trigger(int wandNum);  
 ```
