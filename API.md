@@ -21,9 +21,12 @@ CC_CANOE.CanoeCharacterController(); //Returns the CharacterController attached 
 
 <h2 id="controls">CC_WANDCONTROLS</h2>
 ```c#
-CC_WANDCONTROLS.Button_X_DOWN(int wandNum); //Returns true at the frame the 'X' button starts to press down (not held down) by the specified wand.
-CC_WANDCONTROLS.Button_X_UP(int wandNum); //Returns true at the frame the 'X' button is released by the specified wand.
-CC_WANDCONTROLS.Button_X_PRESS(int wandNum); //Returns if the 'X' button is held down by the specified wand.
+//Returns true at the frame the 'X' button starts to press down (not held down) by the specified wand.
+CC_WANDCONTROLS.Button_X_DOWN(int wandNum); 
+//Returns true at the frame the 'X' button is released by the specified wand.
+CC_WANDCONTROLS.Button_X_UP(int wandNum);
+//Returns if the 'X' button is held down by the specified wand.
+CC_WANDCONTROLS.Button_X_PRESS(int wandNum); 
 
 CC_WANDCONTROLS.Button_O_DOWN(int wandNum);  //Returns true at the frame the 'O' button starts to press down (not held down) by the specified wand.
 CC_WANDCONTROLS.Button_O_UP(int wandNum);  //Returns true at the frame the 'O' button is released by the specified wand.
