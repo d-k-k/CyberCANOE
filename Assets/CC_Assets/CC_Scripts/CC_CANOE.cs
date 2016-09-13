@@ -8,7 +8,7 @@ The main class the user will interface with to retrieve Wand, Head, and Characte
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 9th, 2016.
+Version: September 14th, 2016.
  */
 
 /// <summary> The main class to interface with to retrieve Wand, Head, and CharacterController information. </summary>
@@ -29,18 +29,16 @@ public class CC_CANOE : MonoBehaviour
     public float yaw;
 
     [Header("Wand Settings")]
-    [Tooltip("Which wand models you wish to be visable")]
+    [Tooltip("Which wand models you wish to be visable. Keyboard Shortcut: '5'")]
     public WandModel wandModel;
     public enum WandModel { None, Hand, Axis };
     private WandModel savedWandModel;
 
     [Header("Misc Settings")]
-    [Tooltip("Enable/Disable the visibility of the CyberCANOE's Screens. Typically you want set to none unless you are debugging in the editor.")]
+    [Tooltip("Enable/Disable the visibility of the CyberCANOE's Screens. Typically you want set to none unless you are debugging in the editor. Keyboard Shortcut: '6'")]
     public ShowScreen showScreen;
     public enum ShowScreen { None, Innovator, Destiny };
     private ShowScreen savedSelScreen;
-    [HideInInspector]
-    public string productName;
 
     private static GameObject CC_CANOEOBJ;
     private static GameObject CC_INNOVATOR_SCREENS;
@@ -131,7 +129,7 @@ public class CC_CANOE : MonoBehaviour
             }
         }
 
-        //Set Wand Models
+        //Set Wand Models and Screens visibility
         changeWandModels();
         changeScreens();
 
@@ -249,6 +247,5 @@ public class CC_CANOE : MonoBehaviour
                 break;
         }
     }
-
 
 }

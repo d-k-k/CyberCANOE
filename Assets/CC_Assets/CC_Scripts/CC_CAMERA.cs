@@ -5,14 +5,14 @@ Manages the cameras of the CyberCANOE.
  
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 9th, 2016.
+Version: September 14th, 2016.
 */
 
-/// <summary> Manages all the cameras for Destiny and Innovator required for stereocropic and off-axis projection. </summary>
+/// <summary> Manages all the cameras for Destiny and Innovator. </summary>
 public class CC_CAMERA : MonoBehaviour
 {
     [Header("Camera Select")]
-    [Tooltip("Select which camera to use. You can also change camera's with the 'P' key.")]
+    [Tooltip("Select which camera to use. Keyboard Shortcut: 'P'")]
     public SelectedCamera selectCamera;
     public enum SelectedCamera { Simulator, Innovator, Destiny };
     private SelectedCamera savedSelCam;
@@ -21,29 +21,30 @@ public class CC_CAMERA : MonoBehaviour
     [SerializeField]
     private CC_CAMERARIG m_DestinyCameraRig;
     [Range(0, 7)]
-    [Tooltip("Only change while the in the editor to debug and to view the different cameras of Destiny.")]
+    [Tooltip("Change view to different cameras of Destiny. Keyboard Shortcut: '[' and ']'")]
     public int destinyCameraIndex;
     [Space(5)]
 
-    private Camera[] destinyCameras;
-    private Camera innovatorCamera;
-    private Camera simCam;
-
-    private GameObject innovatorCameraGroup;
-    private GameObject destinyCameraGroup;
-    private GameObject simulatorCameraGroup;
-
     [Header("Stereo Settings and Materials")]
-    [Tooltip("Enable/Disable stereoscopic.")]
+    [Tooltip("Enable/Disable stereoscopic. Keyboard Shortcut: '9'")]
     public bool enableStereo;
     private bool savedStereo;
-    [Tooltip("Interpupillary distance in meters.")]
+    [Tooltip("Interpupillary distance in meters. Keyboard Shortcut: '-' and '+'")]
     public float interaxial = 0.055f;
     private float savedInteraxial;
 
     [Space(5)]
+    [Tooltip("Stereo Material. DO NOT CHANGE.")]
     public Material destinyStereoMaterial;
+    [Tooltip("Stereo Material. DO NOT CHANGE.")]
     public Material innovatorStereoMaterial;
+
+    private Camera[] destinyCameras;
+    private Camera innovatorCamera;
+    private Camera simCam;
+    private GameObject innovatorCameraGroup;
+    private GameObject destinyCameraGroup;
+    private GameObject simulatorCameraGroup;
 
     private float savedAspectRatio;
     private bool panOptic;
@@ -97,8 +98,14 @@ public class CC_CAMERA : MonoBehaviour
 
         //GUI Setup
         style = new GUIStyle();
-        if (CC_COMMANDLINE.isDestiny() || CC_COMMANDLINE.isInnovator()) style.fontSize = 100;
-        style.fontSize = 25;
+        if (CC_COMMANDLINE.isDestiny() || CC_COMMANDLINE.isInnovator())
+        {
+            style.fontSize = 100;
+        }
+        else
+        {
+            style.fontSize = 25;
+        }
         style.normal.textColor = Color.white;
 
         //Set startup camera according to platform
@@ -121,21 +128,39 @@ public class CC_CAMERA : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             selectCamera++;
-            if ((int)selectCamera == 3) selectCamera = 0;
+            if ((int)selectCamera == 3)
+            {
+                selectCamera = 0;
+            }
         }
-        if (savedSelCam != selectCamera) changeCameras();
+        if (savedSelCam != selectCamera)
+        {
+            changeCameras();
+        }
 
         //Change interaxial
-        if (Input.GetKeyDown(KeyCode.Equals)) interaxial += .001f;
-        if (Input.GetKeyDown(KeyCode.Minus)) interaxial -= .001f;
+        if (Input.GetKeyDown(KeyCode.Equals))
+        {
+            interaxial += .001f;
+        }
+        if (Input.GetKeyDown(KeyCode.Minus))
+        {
+            interaxial -= .001f;
+        }
         if (savedInteraxial != interaxial)
+        {
             updateCamerasInteraxials();
+        }
 
         //Enable/disable stereoscopic.
         if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
             enableStereo = !enableStereo;
+        }
         if (savedStereo != enableStereo)
+        {
             updateCamerasStereo();
+        }
 
         //Enable/disable Panoptic for Destiny.
         if (Input.GetKeyDown(KeyCode.Alpha8))
@@ -147,11 +172,19 @@ public class CC_CAMERA : MonoBehaviour
 
         //Checkes for changes to the aspect ratio for innovator and upadtes camera's accordingly.
         if (savedAspectRatio != GetComponent<Camera>().aspect)
+        {
             updateCamerasAspectRatio();
+        }
 
         //Change the Destiny Camera Index
-        if (Input.GetKeyDown(KeyCode.LeftBracket)) destinyCameraIndex++;
-        if (Input.GetKeyDown(KeyCode.RightBracket)) destinyCameraIndex--;
+        if (Input.GetKeyDown(KeyCode.LeftBracket))
+        {
+            destinyCameraIndex++;
+        }
+        if (Input.GetKeyDown(KeyCode.RightBracket))
+        {
+            destinyCameraIndex--;
+        }
         destinyCameraIndex = Mathf.Clamp(destinyCameraIndex, 0, 7);
 
     }
@@ -304,7 +337,7 @@ public class CC_CAMERA : MonoBehaviour
         guiDisplay = "interaxialGUI";
     }
 
-    //Displays the current interaxial setting to the screen.
+    //Displays the information to the screen.
     void OnGUI()
     {
         string value = (interaxial * 1000).ToString("00.");

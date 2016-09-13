@@ -3,7 +3,7 @@ Stereoscopic Shader
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 9th, 2016.
+Version: September 14th, 2016.
 */
 
 Shader "CC_Shaders/CC_StereoShaderDestiny" {
@@ -102,20 +102,19 @@ Shader "CC_Shaders/CC_StereoShaderDestiny" {
 					}
 				}
 			}
+		    ENDCG
+		}
 
-				ENDCG
-	}
+	//Non Stereo
+		Pass
+		{
+			ZTest Always Cull off ZWrite off
 
-		//Non Stereo
-				Pass
-			{
-				ZTest Always Cull off ZWrite off
-
-				CGPROGRAM
-				#pragma vertex vert_img
-				#pragma fragment frag
-				#pragma target 3.0
-				#include "UnityCG.cginc"
+			CGPROGRAM
+			#pragma vertex vert_img
+			#pragma fragment frag
+			#pragma target 3.0
+			#include "UnityCG.cginc"
 
 			uniform float resX;
 			uniform float resY;
@@ -157,7 +156,6 @@ Shader "CC_Shaders/CC_StereoShaderDestiny" {
 				}
 
 			}
-
 			ENDCG
 		}
 	}

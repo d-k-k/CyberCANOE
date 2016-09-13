@@ -9,15 +9,15 @@ The Simulator controls can be seen ingame with '?' key.
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 9th, 2016.
+Version: September 14th, 2016.
  */
 
 /// <summary> Retrives information of the head and wand positions and rotations by interfacing with MotiveDirect. </summary>
 public class CC_TRACKER : MonoBehaviour
 {
 
-    [Tooltip("Enable/Disable the simulator mode. When tracking information is unavaiable this should be enabled to allow you to use simulator controls. Simulator Control's Help Menu Key : '?' ")]
-    public bool simulatorMode = true;
+    [Tooltip("Enable/Disable the tracking. When tracking information is unavailable this should be disabled to allow you to use the simulator controls. Simulator Control's Help Menu Key : '?' ")]
+    public bool enableTracking = true;
     [Tooltip("The wand you are in control of in simulator mode.")]
     public int simulatorActiveWand;
 
@@ -53,16 +53,10 @@ public class CC_TRACKER : MonoBehaviour
         CC_WAND0_TRACKER = transform.GetChild(0).FindChild("CC_FLAT_WAND0").gameObject;
         CC_WAND1_TRACKER = transform.GetChild(0).FindChild("CC_FLAT_WAND1").gameObject;
 
-        //Check For Simulator setting
-        //If command argument use project setting (value 2)
+        //Check For Tracking setting
         if(!Application.isEditor)
         {
-            if (CC_COMMANDLINE.isTracking() == 2)
-                { }
-            else if (CC_COMMANDLINE.isTracking() == 1)
-                simulatorMode = false;
-            else if (CC_COMMANDLINE.isTracking() == 0)
-                simulatorMode = true;
+            enableTracking = CC_COMMANDLINE.isTracking();
         }
     }
 
@@ -72,7 +66,7 @@ public class CC_TRACKER : MonoBehaviour
         wandRotation = new Quaternion[2];
 
         //Simulator Mode - for testing purposes.
-        if (simulatorMode)
+        if (!enableTracking)
         {
             setDefaultPositions();
         }
@@ -86,14 +80,12 @@ public class CC_TRACKER : MonoBehaviour
 
     void Update()
     {
+        //Select wand 0 or 1.
+        if (Input.GetKeyDown("1")) simulatorActiveWand = 0;
+        if (Input.GetKeyDown("2")) simulatorActiveWand = 1;
 
-        if (simulatorMode)
+        if (!enableTracking)
         {
-
-            //Select wand 0 or 1.
-            if (Input.GetKeyDown("1")) simulatorActiveWand = 0;
-            if (Input.GetKeyDown("2")) simulatorActiveWand = 1;
-            
             //Mouse movement.
             float mouseX = Input.mousePosition.x / Screen.width;
             float mouseY = Input.mousePosition.y / Screen.height;

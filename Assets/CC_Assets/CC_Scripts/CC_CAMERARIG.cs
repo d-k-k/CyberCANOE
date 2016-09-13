@@ -3,11 +3,11 @@ using System.Collections;
 
 /* 
 Each part of the cluster renderer has it's own camera rig.
-Each camera rigg is composed of four cameras, one for each screen.
+Each camera rig is composed of four cameras, one for each screen.
 
 CyberCANOE Virtual Reality API for Unity3D
 Modified by Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 9th, 2016.
+Version: September 14th, 2016.
  */
 
 /// <summary> Destiny's Camera Rig for each cluster. </summary>
@@ -18,7 +18,7 @@ public class CC_CAMERARIG
 
     public void updateCameraPerspective(Camera[] cameras, int cameraIndex, bool panOptic)
     {
-        //Get this camera's projection screen
+        //Get this camera rig's projection screens
         GameObject[] projScreens = new GameObject[4];
         projScreens[0] = Screens.transform.GetChild(cameraIndex * 4).gameObject;
         projScreens[1] = Screens.transform.GetChild(cameraIndex * 4 + 1).gameObject;
@@ -52,7 +52,7 @@ public class CC_CAMERARIG
             
     }
 
-    //Updates each camera child's interaxial setting.
+    //Updates each camera's interaxial setting.
     public void updateCameraInteraxials(Camera[] cameras, float interaxial)
     {
         GameObject head = GameObject.Find("CC_HEAD");
@@ -83,8 +83,6 @@ public class CC_CAMERARIG
             {
                 camera.GetComponent<CC_CAMERASTEREO>().disableCenterCamera();
             }
-
-
         }
         else
         {
@@ -92,11 +90,10 @@ public class CC_CAMERARIG
             {
                 camera.GetComponent<CC_CAMERASTEREO>().enableCenterCamera();
             }
-
         }
-
     }
 
+    //Repeated code from CC_CAMERAOFFSET
     private void PerspectiveOffCenter(Camera camera, GameObject projectionScreen)
     {
 

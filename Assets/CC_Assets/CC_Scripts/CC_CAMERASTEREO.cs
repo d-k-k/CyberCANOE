@@ -3,7 +3,6 @@ using System.Collections;
 
 /* 
 Turns the camera into a stereoscopic capable camera.
-Requires CC_CAMERAOFFSET to be attached to the same camera to work correctly. 
 The centerCamera is the camera attached to this gameobject. 
 The leftCamera and rightCamera are created at the start by calling the function createStereoCameras().
 Center, Left, and Right all point at the same projection screen but are offsetted according to the
@@ -11,7 +10,7 @@ global interaxial distance.
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 9th, 2016.
+Version: September 14th, 2016.
  */
 
 /// <summary> Turns camera into a stereoscopic capabale camera. </summary>
@@ -44,7 +43,7 @@ public class CC_CAMERASTEREO : MonoBehaviour
         leftCameraOBJ.transform.SetParent(transform);
         rightCameraOBJ.transform.SetParent(transform);
 
-        //Add a camera component to both objects.
+        //Setup each camera according to the main camera's settings
         Camera mainCamera = GameObject.Find("CC_HEAD").GetComponent<Camera>();
         centerCamera = GetComponent<Camera>();
         centerCamera.nearClipPlane = mainCamera.nearClipPlane;
@@ -69,9 +68,9 @@ public class CC_CAMERASTEREO : MonoBehaviour
         rightCamera.backgroundColor = centerCamera.backgroundColor;
         rightCamera.cullingMask = centerCamera.cullingMask;
 
+        //Give each camera a RenderTexture to draw to
         if (isDestiny)
         {
-            //The cameras don't actually draw to the screen but create RenderTextures.
             leftCameraRT = new RenderTexture(Screen.width/2, Screen.height/2, 24);
             rightCameraRT = new RenderTexture(Screen.width/2, Screen.height/2, 24);
             centerCameraRT = new RenderTexture(Screen.width/2, Screen.height/2, 24);
@@ -92,7 +91,6 @@ public class CC_CAMERASTEREO : MonoBehaviour
             leftCameraOBJ.GetComponent<CC_CAMERAOFFSET>().setProjectionScreen(projectionScreen);
             rightCameraOBJ.GetComponent<CC_CAMERAOFFSET>().setProjectionScreen(projectionScreen);
 
-            //The cameras don't actually draw to the screen but create RenderTextures.
             leftCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
             rightCameraRT = new RenderTexture(Screen.width, Screen.height, 24);
             centerCameraRT = new RenderTexture(Screen.width, Screen.height, 24);

@@ -3,7 +3,7 @@ Stereoscopic Shader
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 9th, 2016.
+Version: September 14th, 2016.
 */
 
 Shader "CC_Shaders/CC_StereoShaderInnovator"

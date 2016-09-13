@@ -4,18 +4,15 @@ using System.Collections;
 /* 
 This is an example script that allows the user to grab objects.
 This script should be attached to the CC_WAND_LEFT or CC_WAND_RIGHT game objects under the CC_CANOE game object.
-I've included the mouse buttons being able to grab objects also for the simulator mode. Left Mouse = Left Wand, Right Mouse = Right Wand.
 Shoulder Button - Grab object
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 9th, 2016.
+Version: September 14th, 2016.
  */
 
 public class CCaux_Grabber : MonoBehaviour
 {
-
-
     private int wandNum = 0;
 
     private GameObject currentObject = null;

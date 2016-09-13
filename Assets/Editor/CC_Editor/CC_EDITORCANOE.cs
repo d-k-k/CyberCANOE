@@ -34,12 +34,10 @@ public class CC_EDITORCANOE : Editor
 
     private void BeforeBuild()
     {
-        GameObject.Find("CC_CANOE").GetComponent<CC_CANOE>().productName = Application.productName;
         GameObject.Find("CC_CANOE").GetComponent<CC_CANOE>().showScreen = CC_CANOE.ShowScreen.None;
         PlayerSettings.defaultIsFullScreen = false;
         PlayerSettings.displayResolutionDialog = ResolutionDialogSetting.Disabled;
         PlayerSettings.resizableWindow = true;
-
     }
 
 }

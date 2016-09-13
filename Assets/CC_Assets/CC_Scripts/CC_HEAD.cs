@@ -7,7 +7,7 @@ Also used to switch between the simulator and Innovator's cameras.
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: September 9th, 2016.
+Version: September 14th, 2016.
  */
 
 /// <summary> Keeps track of the head information. </summary>
