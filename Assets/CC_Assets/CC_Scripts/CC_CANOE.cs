@@ -19,9 +19,9 @@ public class CC_CANOE : MonoBehaviour
     public bool applyGravity = true;
 
     [Header("Navigation Settings (Simulator)")]
-    [Tooltip("Movement speed. Only affects simulator controls.")]
+    [Tooltip("Navigation speed of the simulator controls. (Only affects WASD key movement)")]
     public float navigationSpeed = 5.0f;
-    [Tooltip("Rotation speed. Only affects simulator controls.")]
+    [Tooltip("Rotational speed of the simulator controls. (Only affects WASD key movement)")]
     public float navigationRotationSpeed = 1.25f;
     [HideInInspector]
     public float pitch;
@@ -29,13 +29,13 @@ public class CC_CANOE : MonoBehaviour
     public float yaw;
 
     [Header("Wand Settings")]
-    [Tooltip("Which wand models you wish to be visable. Keyboard Shortcut: '5'")]
+    [Tooltip("The wand model you wish to be visible. Keyboard Shortcut: '5'")]
     public WandModel wandModel;
     public enum WandModel { None, Hand, Axis };
     private WandModel savedWandModel;
 
     [Header("Misc Settings")]
-    [Tooltip("Enable/Disable the visibility of the CyberCANOE's Screens. Typically you want set to none unless you are debugging in the editor. Keyboard Shortcut: '6'")]
+    [Tooltip("Enable/Disable the visibility of the CyberCANOE's Screens. Typically you want this set to none unless you are debugging in the editor. Keyboard Shortcut: '6'")]
     public ShowScreen showScreen;
     public enum ShowScreen { None, Innovator, Destiny };
     private ShowScreen savedSelScreen;
